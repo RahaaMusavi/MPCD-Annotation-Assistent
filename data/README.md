@@ -1,19 +1,19 @@
 # Data
 
-The application uses linguistic reference material and annotated
-Middle Persian corpus data from the Middle Persian Corpus and Dictionary
-(MPCD).
+The application uses reference material from the following sources:
 
-The MPCD handbooks are available from:
+- Middle Persian Corpus and Dictionary (MPCD):
+  https://www.mpcorpus.org/resources/
 
-https://www.mpcorpus.org/resources/
+- Universal Dependencies v2:
+  https://universaldependencies.org/guidelines.html
 
-The application expects the following local files:
+The corpus and reference files used by the application are not included
+in this repository. They must be obtained separately.
+
+The application expects local copies of:
 
 - `syntax-handbook.md`
 - `morphology-handbook.md`
 - `ud-principles.txt`
 - `annotated_corpus.pkl`
-
-The corpus data and local reference files are not included in this
-repository.
