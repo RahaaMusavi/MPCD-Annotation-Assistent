@@ -1,7 +1,6 @@
 import os
 import re
 import time
-import sys
 import gradio as gr
 from openai import OpenAI
 import pickle
@@ -31,11 +30,36 @@ CORPUS_FILE = RAG_CORPUS_FILE
 
 ANNOTATED_CORPUS_PICKLE = BASE_DIR / "data" / "annotated_corpus.pkl"
 
-VECTOR_STORE_CACHE = BASE_DIR / "data" / "vector_store_cache.pkl"
+VECTOR_STORE_CACHE = BASE_DIR / "vector_store_cache.pkl"
 
 SOURCE_FILES = [SYNTAX_BOOK, MORPHOLOGY_BOOK, CORPUS_FILE, UD_PRINCIPLES]
 
 MAX_SEARCH_RESULTS = 25
+
+
+
+# ============================================================
+# CHECK FOR MISSING FILES
+# ============================================================
+
+
+def check_required_files():
+    required_files = [
+        SYNTAX_BOOK,
+        MORPHOLOGY_BOOK,
+        UD_PRINCIPLES,
+        ANNOTATED_CORPUS_PICKLE,
+    ]
+
+    missing = [str(path) for path in required_files if not path.exists()]
+
+    if missing:
+        raise FileNotFoundError(
+            "Required data files are missing:\n"
+            + "\n".join(missing)
+            + "\n\nSee data/README.md for information about the required data."
+        )
+
 
 
 # ============================================================
@@ -103,7 +127,8 @@ def ensure_rag_corpus_exists():
     annotated_corpus = load_annotated_corpus()
     export_for_rag(annotated_corpus, RAG_CORPUS_FILE)
 
-
+check_required_files()
+ensure_rag_corpus_exists()
 ensure_rag_corpus_exists()
 
 
@@ -523,12 +548,6 @@ CURRENT USER QUESTION
 """
 
 
-def check_literal_filename_leak(answer_text):
-    """The uploaded document's own filename must never appear as if it
-    were a citation, in any format — table or prose."""
-    return "corpus_for_rag.txt" in answer_text
-
-
 def message_gpt(message):
     if not message or not message.strip():
         yield "*Please ask your question.*", ""
@@ -652,5 +671,4 @@ with gr.Blocks(title="MPCD Annotation Assistant") as view:
 # ============================================================
 
 view.launch(
-    share=True
 )
