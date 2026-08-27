@@ -1,3 +1,6 @@
 openai
 gradio
-lxml
+pandas
+tqdm
+conllu
+openpyxl
