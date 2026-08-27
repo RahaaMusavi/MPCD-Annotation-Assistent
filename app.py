@@ -1,10 +1,14 @@
 import os
 import re
 import time
-import gradio as gr
-from openai import OpenAI
 import pickle
 from pathlib import Path
+
+import gradio as gr
+from openai import OpenAI
+
+from parser.parser import Sentence, Token
+
 
 client = OpenAI()
 
